@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ContactDetailsActivity">
+
+    <ImageView
+        android:id="@+id/imageView_name_Details"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/baseline_person_black_36dp" />
+
+    <TextView
+        android:id="@+id/textView_name_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        tools:text="Rodrigo Mayer"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_name_Details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView_name_Details"
+        app:layout_constraintTop_toTopOf="@+id/imageView_name_Details" />
+
+    <ImageView
+        android:id="@+id/imageView_email_Details"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_name_Details"
+        app:srcCompat="@mipmap/baseline_email_black_36dp" />
+
+    <TextView
+        android:id="@+id/textView_email_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        tools:text="mayerrodrigo98@gmail.com"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_email_Details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView_email_Details"
+        app:layout_constraintTop_toTopOf="@+id/imageView_email_Details" />
+
+    <ImageView
+        android:id="@+id/imageView_Detailsress_Details"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_email_Details"
+        app:srcCompat="@mipmap/baseline_location_on_black_36dp" />
+
+    <TextView
+        android:id="@+id/textView_address_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        tools:text="Rua Abolição, 43"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_Detailsress_Details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView_Detailsress_Details"
+        app:layout_constraintTop_toTopOf="@+id/imageView_Detailsress_Details" />
+
+    <TextView
+        android:id="@+id/textView_phonesLabel_Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Telefones"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_Detailsress_Details" />
+
+    <ImageView
+        android:id="@+id/imageView_homePhone_Details"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_phonesLabel_Details"
+        app:srcCompat="@mipmap/baseline_home_black_36dp" />
+
+    <TextView
+        android:id="@+id/textView_homePhone_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        tools:text="(11) 4476-1897"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_homePhone_Details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView_homePhone_Details"
+        app:layout_constraintTop_toTopOf="@+id/imageView_homePhone_Details" />
+
+    <ImageView
+        android:id="@+id/imageView_workPhone_Details"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_homePhone_Details"
+        app:srcCompat="@mipmap/baseline_work_black_36dp" />
+
+    <TextView
+        android:id="@+id/textView_workPhone_Details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        tools:text="(11) 9 5648-9304"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_workPhone_Details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView_workPhone_Details"
+        app:layout_constraintTop_toTopOf="@+id/imageView_workPhone_Details" />
+</androidx.constraintlayout.widget.ConstraintLayout>

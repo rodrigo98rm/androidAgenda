@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Agenda</string>
+
+    <!-- Activities Labels -->
+    <string name="label_add_contact">Adicionar Contato</string>
+    <string name="label_view_contact">Ver Contato</string>
+
+</resources>
