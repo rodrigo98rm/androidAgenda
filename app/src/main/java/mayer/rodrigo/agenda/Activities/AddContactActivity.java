@@ -116,12 +116,30 @@ public class AddContactActivity extends AppCompatActivity {
     }
 
     private void saveContact(){
+
         String name = txtName.getText().toString().trim();
         String email = txtEmail.getText().toString().trim();
         String address = txtAddress.getText().toString().trim();
         String homePhone = txtHomePhone.getText().toString().trim();
         String workPhone = txtWorkPhone.getText().toString().trim();
 
+        //Validate fields
+        if(!isNameValid(name)){
+            txtName.setError("Nome muito curto");
+            return;
+        }
+
+        if(!isEmailValid(email)){
+            txtEmail.setError("Email inválido");
+            return;
+        }
+
+        if(!isAddressValid(address)){
+            txtAddress.setError("O endereço não pode ser vazio");
+            return;
+        }
+
+        //Update or save contact
         if(editMode){
             ContatoDAO.getInstance().updateContactWith(contactId, name, email, address, homePhone, workPhone);
             finish();
@@ -130,7 +148,20 @@ public class AddContactActivity extends AppCompatActivity {
             Contact contact = new Contact(name, email, address, homePhone, workPhone);
             ContatoDAO.getInstance().addContact(contact);
         }
+
         finish();
+    }
+
+    private boolean isNameValid(String name){
+        return name.length() >= 3;
+    }
+
+    private boolean isEmailValid(String email){
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isAddressValid(String address){
+        return !address.isEmpty();
     }
 
 }
