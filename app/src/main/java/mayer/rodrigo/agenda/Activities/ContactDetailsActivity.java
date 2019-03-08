@@ -7,14 +7,19 @@ import mayer.rodrigo.agenda.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class ContactDetailsActivity extends AppCompatActivity {
 
-    public static final String CONTACT_ID = "contactId";
+    public static final String CONTACT_ID = "contact_id";
 
     //Views
     private TextView txtName, txtEmail, txtAddress, txtHomePhone, txtWorkPhone;
+
+    private int contactId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +33,40 @@ public class ContactDetailsActivity extends AppCompatActivity {
         txtHomePhone = findViewById(R.id.textView_homePhone_Details);
         txtWorkPhone = findViewById(R.id.textView_workPhone_Details);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         fillData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.details_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+            case R.id.menu_editar_details:
+                Intent intent = new Intent(getApplicationContext(), AddContactActivity.class);
+                intent.putExtra(AddContactActivity.EDIT_MODE, true);
+                intent.putExtra(AddContactActivity.CONTACT_ID, contactId);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     private void fillData(){
         Intent intent = getIntent();
-        int contactId = intent.getIntExtra(CONTACT_ID, -1);
+        contactId = intent.getIntExtra(CONTACT_ID, -1);
 
         //TODO: Obter o contato do banco de dados no futuro
 

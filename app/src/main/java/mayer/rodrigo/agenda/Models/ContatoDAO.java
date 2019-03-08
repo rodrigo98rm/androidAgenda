@@ -42,12 +42,30 @@ public class ContatoDAO {
         return contacts.get(index);
     }
 
+    public int getContactIndexWith(int id){
+        for(int i = 0; i < contacts.size(); i++){
+            if(contacts.get(i).getId() == id){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void addContact(Contact contact){
         contacts.add(contact);
     }
 
-    public void removeContact(int index){
-        contacts.remove(index);
+    public void updateContactWith(int id, String name, String email, String adddress, String homePhone, String workPhone){
+        Contact contact = getContactWith(id);
+        contact.setName(name);
+        contact.setEmail(email);
+        contact.setAddress(adddress);
+        contact.setHomePhone(homePhone);
+        contact.setWorkPhone(workPhone);
+    }
+
+    public void removeContactWith(int id){
+        contacts.remove(getContactWith(id));
     }
 
 }

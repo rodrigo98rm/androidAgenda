@@ -4,5 +4,7 @@
     <!-- Activities Labels -->
     <string name="label_add_contact">Adicionar Contato</string>
     <string name="label_view_contact">Ver Contato</string>
+    <string name="menu_editar">Editar</string>
+    <string name="delete">Delete</string>
 
 </resources>
