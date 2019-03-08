@@ -1,12 +1,14 @@
 package mayer.rodrigo.agenda.Models;
 
+import java.util.UUID;
+
 public class Contact {
 
     private int id;
     private String name, email, address, homePhone, workPhone;
 
-    public Contact(int id, String name, String email, String address, String homePhone, String workPhone) {
-        this.id = id;
+    public Contact(String name, String email, String address, String homePhone, String workPhone) {
+        this.id = UUID.randomUUID().hashCode();
         this.name = name;
         this.email = email;
         this.address = address;

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,17 +13,33 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import mayer.rodrigo.agenda.Models.Contact;
+import mayer.rodrigo.agenda.Models.ContatoDAO;
 import mayer.rodrigo.agenda.R;
 
-public class ContactsListAdapter extends ArrayAdapter<Contact> {
+public class ContactsListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Contact> contacts;
+    private ContatoDAO contatoDAO;
 
-    public ContactsListAdapter(Context context, ArrayList<Contact> contacts){
-        super(context, 0, contacts);
+    public ContactsListAdapter(Context context){
+        super();
         this.context = context;
-        this.contacts = contacts;
+        contatoDAO = ContatoDAO.getInstance();
+    }
+
+    @Override
+    public int getCount() {
+        return contatoDAO.getContacts().size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
     }
 
     @NonNull
@@ -37,7 +54,7 @@ public class ContactsListAdapter extends ArrayAdapter<Contact> {
         name = convertView.findViewById(R.id.textView_name_ContactsAdapter);
         email = convertView.findViewById(R.id.textView_email_ContactsAdapter);
 
-        Contact contact = contacts.get(position);
+        Contact contact = contatoDAO.getContactAt(position);
         name.setText(contact.getName());
         email.setText(contact.getEmail());
 

@@ -2,6 +2,7 @@ package mayer.rodrigo.agenda.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import mayer.rodrigo.agenda.Models.Contact;
+import mayer.rodrigo.agenda.Models.ContatoDAO;
 import mayer.rodrigo.agenda.R;
 
 import android.content.Intent;
@@ -37,7 +38,12 @@ public class ContactDetailsActivity extends AppCompatActivity {
         //TODO: Obter o contato do banco de dados no futuro
 
         if(contactId != -1){
-            Contact contact = new Contact(1,"Rodrigo Mayer", "mayerrodrigo98@gmail.com", "Rua Abolição, 34", "(11) 9 5346-6857", "(11) 9 5346-6857");
+            Contact contact = ContatoDAO.getInstance().getContactWith(contactId);
+            if(contact == null){
+                //Error, return to main screen
+                finish();
+                return;
+            }
             txtName.setText(contact.getName());
             txtEmail.setText(contact.getEmail());
             txtAddress.setText(contact.getAddress());
