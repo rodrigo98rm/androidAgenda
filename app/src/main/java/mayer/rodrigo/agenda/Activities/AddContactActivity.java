@@ -1,10 +1,12 @@
 package mayer.rodrigo.agenda.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import mayer.rodrigo.agenda.Models.Contact;
 import mayer.rodrigo.agenda.Models.ContatoDAO;
 import mayer.rodrigo.agenda.R;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -75,13 +77,28 @@ public class AddContactActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.menu_delete_add:
-                ContatoDAO.getInstance().removeContactWith(contactId);
 
-                //Fecha as activities anteriores e volta para a Main
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddContactActivity.this);
+                builder.setMessage("Apagar contato?")
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ContatoDAO.getInstance().removeContactWith(contactId);
+
+                                //Fecha as activities anteriores e volta para a Main
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create().show();
             default:
                 return super.onOptionsItemSelected(item);
         }
