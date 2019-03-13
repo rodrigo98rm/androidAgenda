@@ -1,5 +1,6 @@
 package mayer.rodrigo.agenda.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import mayer.rodrigo.agenda.Adapters.ContactsListAdapter;
 import mayer.rodrigo.agenda.Models.Contact;
@@ -7,6 +8,7 @@ import mayer.rodrigo.agenda.Models.ContatoDAO;
 import mayer.rodrigo.agenda.R;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private ListView listViewContacts;
     private FloatingActionButton fabAddContact;
 
+    private ContatoDAO contatoDAO;
+
+    private final int SEND_EMAIL_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        contatoDAO = ContatoDAO.getInstance();
+
         setupList();
 
     }
@@ -57,6 +65,21 @@ public class MainActivity extends AppCompatActivity {
         fillContactsList();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SEND_EMAIL_REQUEST_CODE){
+            //Result eh sempre 0, seja o email enviado ou nao
+            //nao eh possivel verficar se o envio do email foi bem sucedido ou nao, como pede o exercicio
+            Log.i("HERE RESULT", String.valueOf(resultCode)); // Sempre 0
+            if(data != null){
+                Log.i("HERE DATA", data.toString()); // nunca eh impresso pois data eh sempre null
+            }
+        }
+
+    }
+
     private void setupList(){
 
         listViewContacts.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -65,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ContactDetailsActivity.class);
-                intent.putExtra(ContactDetailsActivity.CONTACT_ID, ContatoDAO.getInstance().getContacts().get(position).getId());
+                intent.putExtra(ContactDetailsActivity.CONTACT_ID, contatoDAO.getContacts().get(position).getId());
                 startActivity(intent);
             }
         });
@@ -97,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
                 SparseBooleanArray selectedContacts = listViewContacts.getCheckedItemPositions();
                 int id = item.getItemId();
 
-                //Delete contacts
+                //Delete multiple contacts
                 if(id == R.id.main_cab_delete){
-                    ArrayList<Contact> contacts = ContatoDAO.getInstance().getContacts();
+                    ArrayList<Contact> contacts = contatoDAO.getContacts();
                     ArrayList<Integer> idsToRemove = new ArrayList<>();
 
                     for(int i = 0; i < contacts.size(); i++){
@@ -109,8 +132,22 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     for(int i = 0; i < idsToRemove.size(); i++){
-                        ContatoDAO.getInstance().removeContactWith(idsToRemove.get(i));
+                        contatoDAO.removeContactWith(idsToRemove.get(i));
                     }
+                }
+                //Send Email to multiple contacts
+                else if(id == R.id.main_cab_email){
+
+                    ArrayList<Contact> contacts = contatoDAO.getContacts();
+                    ArrayList<String> emails = new ArrayList<>();
+
+                    for(int i = 0; i < contacts.size(); i++){
+                        if(selectedContacts.get(i)){
+                            emails.add(contacts.get(i).getEmail());
+                        }
+                    }
+
+                    sendEmail(emails);
                 }
 
                 mode.finish();
@@ -123,6 +160,17 @@ public class MainActivity extends AppCompatActivity {
                 fillContactsList();
             }
         });
+    }
+
+    private void sendEmail(ArrayList<String> emails){
+        String uriEmails = "";
+
+        for(int i = 0; i < emails.size(); i++){
+            uriEmails += emails.get(i) + ",";
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", uriEmails, null));
+        startActivityForResult(intent, SEND_EMAIL_REQUEST_CODE);
     }
 
     private void fillContactsList(){

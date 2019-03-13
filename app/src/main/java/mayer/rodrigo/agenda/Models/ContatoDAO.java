@@ -20,12 +20,12 @@ public class ContatoDAO {
     }
 
     private void loadTestData(){
-        addContact(new Contact("Rodrigo Mayer", "rodrigo@gmail.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
-        addContact(new Contact("Paulo Mayer", "paulo@gmail.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
-        addContact(new Contact("Elver Mayer", "elver@gmail.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
-        addContact(new Contact("Rodrigo Mayer", "rodrigo@gmail.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
-        addContact(new Contact("Paulo Mayer", "paulo@gmail.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
-        addContact(new Contact("Elver Mayer", "elver@gmail.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
+        addContact(new Contact("Rodrigo Mayer", "rodrigo@teste.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
+        addContact(new Contact("Paulo Mayer", "paulo@teste.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
+        addContact(new Contact("Elver Mayer", "elver@teste.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
+        addContact(new Contact("Rodrigo Mayer", "rodrigo@teste.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
+        addContact(new Contact("Paulo Mayer", "paulo@teste.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
+        addContact(new Contact("Elver Mayer", "elver@teste.com", "Rua Abolição, 34", "(11) 9 5346-6857", ""));
     }
 
     public ArrayList<Contact> getContacts(){
