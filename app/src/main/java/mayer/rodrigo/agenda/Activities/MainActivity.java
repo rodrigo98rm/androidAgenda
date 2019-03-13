@@ -8,7 +8,14 @@ import mayer.rodrigo.agenda.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -40,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setupList();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fillContactsList();
+    }
+
+    private void setupList(){
+
+        listViewContacts.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
         listViewContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -49,12 +70,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+        listViewContacts.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        fillContactsList();
+                mode.setTitle(listViewContacts.getCheckedItemCount() + " selecionados");
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                //Inflate the CAB
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.main_cab_menu, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+                SparseBooleanArray selectedContacts = listViewContacts.getCheckedItemPositions();
+                int id = item.getItemId();
+
+                //Delete contacts
+                if(id == R.id.main_cab_delete){
+                    ArrayList<Contact> contacts = ContatoDAO.getInstance().getContacts();
+                    ArrayList<Integer> idsToRemove = new ArrayList<>();
+
+                    for(int i = 0; i < contacts.size(); i++){
+                        if(selectedContacts.get(i)){
+                            idsToRemove.add(contacts.get(i).getId());
+                        }
+                    }
+
+                    for(int i = 0; i < idsToRemove.size(); i++){
+                        ContatoDAO.getInstance().removeContactWith(idsToRemove.get(i));
+                    }
+                }
+
+                mode.finish();
+
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                fillContactsList();
+            }
+        });
     }
 
     private void fillContactsList(){
