@@ -7,6 +7,11 @@
         app:showAsAction="always"/>
     <item android:id="@+id/main_cab_email"
         android:title="Send email"
-        android:icon="@mipmap/baseline_email_black_36dp"
+        android:icon="@mipmap/baseline_email_white_36dp"
         app:showAsAction="always" />
+    <item android:id="@+id/main_cab_share"
+        android:title="Share"
+        android:icon="@mipmap/baseline_share_white_36dp"
+        app:showAsAction="withText"
+        />
 </menu>

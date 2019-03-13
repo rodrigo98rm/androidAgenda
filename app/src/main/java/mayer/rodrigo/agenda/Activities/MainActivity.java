@@ -9,6 +9,7 @@ import mayer.rodrigo.agenda.R;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -106,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                 //Inflate the CAB
                 MenuInflater inflater = mode.getMenuInflater();
                 inflater.inflate(R.menu.main_cab_menu, menu);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mode.setTitleOptionalHint(false);
+                }
                 return true;
             }
 
@@ -149,6 +153,25 @@ public class MainActivity extends AppCompatActivity {
 
                     sendEmail(emails);
                 }
+                //Share contacts
+                else if(id == R.id.main_cab_share){
+
+                    ArrayList<Contact> contacts = contatoDAO.getContacts();
+                    String shareString = "";
+
+                    for(int i = 0; i < contacts.size(); i++){
+                        if(selectedContacts.get(i)){
+                            Contact contact = contacts.get(i);
+                            shareString += contact.getName() + "\n";
+                            shareString += contact.getEmail() + "\n";
+                            shareString += contact.getAddress() + "\n";
+                            shareString += contact.getHomePhone() + "\n";
+                            shareString += contact.getWorkPhone() + "\n";
+                            shareString += "\n";
+                        }
+                    }
+                    shareContacts(shareString);
+                }
 
                 mode.finish();
 
@@ -171,6 +194,13 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", uriEmails, null));
         startActivityForResult(intent, SEND_EMAIL_REQUEST_CODE);
+    }
+
+    private void shareContacts(String contacts){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, contacts);
+        intent.setType("text/plain");
+        startActivity(intent);
     }
 
     private void fillContactsList(){
