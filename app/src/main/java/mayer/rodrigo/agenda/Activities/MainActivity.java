@@ -7,6 +7,7 @@ import mayer.rodrigo.agenda.Models.Contact;
 import mayer.rodrigo.agenda.Models.ContatoDAO;
 import mayer.rodrigo.agenda.R;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -25,6 +26,7 @@ import android.widget.ListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,12 +106,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                //Inflate the CAB
+
                 MenuInflater inflater = mode.getMenuInflater();
                 inflater.inflate(R.menu.main_cab_menu, menu);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     mode.setTitleOptionalHint(false);
                 }
+
+                Intent incoming = getIntent();
+
+                if(incoming.getAction().equals(Intent.ACTION_PICK)){
+                    menu.findItem(R.id.main_cab_delete).setVisible(false);
+                    menu.findItem(R.id.main_cab_email).setVisible(false);
+                    menu.findItem(R.id.main_cab_share).setVisible(false);
+                }else{
+                    menu.findItem(R.id.main_cab_done).setVisible(false);
+                }
+
                 return true;
             }
 
@@ -155,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //Share contacts
                 else if(id == R.id.main_cab_share){
-
                     ArrayList<Contact> contacts = contatoDAO.getContacts();
                     String shareString = "";
 
@@ -171,6 +183,35 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     shareContacts(shareString);
+                }
+                // Send result
+                else if(id == R.id.main_cab_done){
+                    ArrayList<Contact> contactsList = contatoDAO.getContacts();
+
+                    HashMap<Integer, HashMap<String, String>> contacts = new HashMap<>();
+
+                    int count = 0;
+                    for(int i = 0; i < contactsList.size(); i++){
+                        if(selectedContacts.get(i)){
+                            Contact contact = contactsList.get(i);
+
+                            HashMap<String, String> contactHash = new HashMap<>();
+
+                            contactHash.put("name", contact.getName());
+                            contactHash.put("email", contact.getEmail());
+                            contactHash.put("address", contact.getAddress());
+                            contactHash.put("homePhone", contact.getHomePhone());
+                            contactHash.put("workPhone", contact.getWorkPhone());
+
+                            contacts.put(count , contactHash);
+                            count++;
+                        }
+                    }
+
+                    Intent result = new Intent();
+                    result.putExtra("contacts", contacts);
+                    setResult(Activity.RESULT_OK, result);
+                    finish();
                 }
 
                 mode.finish();
@@ -200,7 +241,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, contacts);
         intent.setType("text/plain");
-        startActivity(intent);
+
+        Intent chooser = Intent.createChooser(intent, getString(R.string.share_message));
+        startActivity(chooser);
     }
 
     private void fillContactsList(){

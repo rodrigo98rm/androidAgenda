@@ -6,5 +6,6 @@
     <string name="label_view_contact">Ver Contato</string>
     <string name="menu_editar">Editar</string>
     <string name="delete">Delete</string>
+    <string name="share_message">Compartilhar contatos</string>
 
 </resources>
